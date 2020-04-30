@@ -7,8 +7,9 @@ from unicodedata import name
 @click.command()
 @click.option('--named', is_flag=True)
 @click.option('--null', is_flag=True)
+@click.option('--glyphs-only', is_flag=True)
 @click.option('--verbose', is_flag=True)
-def cli(named, null, verbose):
+def cli(named, null, glyphs_only, verbose):
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     for index, point in enumerate(range(1114112)):
         thing = chr(point)
@@ -21,8 +22,8 @@ def cli(named, null, verbose):
         if named:
             if not unicode_name:
                 continue
-
-        print(index, end=" ")
+        if not glyphs_only:
+            print(index, end=" ")
         printable = repr(thing)
         print(printable, end=" ")
 
@@ -31,7 +32,7 @@ def cli(named, null, verbose):
         else:
             line_end = '\n'
 
-        if unicode_name:
+        if unicode_name and not glyphs_only:
             print(unicode_name, end=line_end)
         else:
             print(end=line_end)
