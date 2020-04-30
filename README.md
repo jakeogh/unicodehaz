@@ -18,6 +18,9 @@ $ unicodehaz | grep -i snowman
 $ unicodehaz | wc -l
 1114112
 
+$ unicodehaz --named | wc -l
+131259
+
 $ unicodehaz | grep -i superscript
 178 '²' SUPERSCRIPT TWO
 179 '³' SUPERSCRIPT THREE
