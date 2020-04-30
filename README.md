@@ -5,9 +5,11 @@ $ unicodehaz --help
 Usage: unicodehaz [OPTIONS]
 
 Options:
-  --verbose
   --named
-  --help     Show this message and exit.
+  --null
+  --glyphs-only
+  --verbose
+  --help         Show this message and exit.
 
 
 $ unicodehaz | grep -i snowman
@@ -16,7 +18,7 @@ $ unicodehaz | grep -i snowman
 9927 '⛇' BLACK SNOWMAN
 
 $ unicodehaz | grep '☃'
-
+9731 '☃' SNOWMAN
 
 $ unicodehaz | wc -l
 1114112
