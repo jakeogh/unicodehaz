@@ -17,7 +17,7 @@ $ unicodehaz | grep -i snowman
 9924 '⛄' SNOWMAN WITHOUT SNOW
 9927 '⛇' BLACK SNOWMAN
 
-$ unicodehaz | grep '☃'
+$ unicodehaz | grep ☃
 9731 '☃' SNOWMAN
 
 $ unicodehaz | wc -l
