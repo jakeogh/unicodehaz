@@ -1,4 +1,4 @@
-
+```
 $ unicodehaz --help
 Usage: unicodehaz [OPTIONS]
 
@@ -15,4 +15,4 @@ $ unicodehaz | grep -i snowman
 
 $ unicodehaz | wc -l
 1114112
-
+```
