@@ -80,5 +80,7 @@ $ unicodehaz | grep -i "modifier letter capital"
 11389 'ⱽ' MODIFIER LETTER CAPITAL V
 43000 'ꟸ' MODIFIER LETTER CAPITAL H WITH STROKE
 
-
 ```
+
+Are emoji's more important and historically common than superscript uppercase (aka "MODIFIER LETTER CAPITAL") C F Q S X Y and Z?
+
