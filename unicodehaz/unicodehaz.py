@@ -61,6 +61,7 @@ def cli(codepoints,
               repr(chr(last_name)),
               unicodedata.name(chr(last_name)))
         print("Unnamed codepoints:  ", len(unnamed_codepoints))
+        print()
         print(unicodedata.__doc__)
 
 
