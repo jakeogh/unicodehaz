@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from unicodedata import name
+import unicodedata
 
 import click
 
@@ -34,7 +34,7 @@ def cli(codepoints,
         line = []
         thing = chr(point)
         try:
-            unicode_name = name(thing)
+            unicode_name = unicodedata.name(thing)
             last_name = index
         except ValueError:
             unicode_name = None
@@ -61,6 +61,7 @@ def cli(codepoints,
               repr(chr(last_name)),
               name(chr(last_name)))
         print("Unnamed codepoints:  ", len(unnamed_codepoints))
+        print(unicodedata.__doc__)
 
 
 if __name__ == "__main__":
