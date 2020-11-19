@@ -1,14 +1,13 @@
 
 ```
-
 $ unicodehaz --help
-Usage: unicodehaz [OPTIONS]
+Usage: unicodehaz [OPTIONS] [CODEPOINTS]...
 
 Options:
-  --named
-  --null
-  --glyphs-only
-  --verbose
+  --all          Include unnamed codepoints in output
+  --null         NULL terminalted output
+  --glyphs-only  Do not print index numbers
+  --stats        Only print statistics
   --help         Show this message and exit.
 
 
@@ -20,11 +19,11 @@ $ unicodehaz | grep -i snowman
 $ unicodehaz | grep ☃
 9731 '☃' SNOWMAN
 
-$ unicodehaz | wc -l
+$ unicodehaz --all | wc -l
 1114112
 
-$ unicodehaz --named | wc -l
-131259
+$ unicodehaz | wc -l
+131808
 
 $ unicodehaz | grep -i superscript
 178 '²' SUPERSCRIPT TWO
@@ -80,7 +79,11 @@ $ unicodehaz | grep -i "modifier letter capital"
 11389 'ⱽ' MODIFIER LETTER CAPITAL V
 43000 'ꟸ' MODIFIER LETTER CAPITAL H WITH STROKE
 
+$ unicodehaz --stats
+last named unicode char: 917999 '󠇯' VARIATION SELECTOR-256
+unnamed codepoints: 982304
+
 ```
 
-Are emoji's more important and historically common than superscript uppercase (aka "MODIFIER LETTER CAPITAL") C F Q S X Y and Z?
+Glaring omissions: superscript uppercase (aka "MODIFIER LETTER CAPITAL") C F Q S X Y and Z.
 
