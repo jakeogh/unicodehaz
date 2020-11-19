@@ -30,7 +30,7 @@ def cli(codepoints,
             last_name = index
         except ValueError:
             unicode_name = None
-            unnammed_codepoints.append(thing)
+            unnamed_codepoints.append(thing)
 
         if named:
             if not unicode_name:
