@@ -13,11 +13,10 @@ import click
 @click.option('--verbose', is_flag=True)
 def cli(codepoints, named, null, glyphs_only, verbose):
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
-    iterator = enumerate(range(1114112))
+    iterator = range(1114112)
     if codepoints:
         iterator = codepoints
-    print(iterator)
-    for index, point in iterator:
+    for index, point in enumerate(iterator):
         thing = chr(point)
         try:
             unicode_name = name(thing)
