@@ -56,11 +56,11 @@ def cli(codepoints,
             print(line, end=line_end)
 
     if stats:
-        print("last named unicode char:",
+        print("Last named codepoint:",
               last_name,
               repr(chr(last_name)),
               name(chr(last_name)))
-        print("unnamed codepoints:", len(unnamed_codepoints))
+        print("Unnamed codepoints:  ", len(unnamed_codepoints))
 
 
 if __name__ == "__main__":
