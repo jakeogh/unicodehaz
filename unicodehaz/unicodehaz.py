@@ -8,10 +8,10 @@ import click
 @click.command()
 @click.argument("codepoints", type=int, nargs=-1)
 @click.option('--all', "all_codepoints", is_flag=True, help="Include unnamed codepoints in output")
-@click.option('--null', is_flag=True)
-@click.option('--glyphs-only', is_flag=True)
+@click.option('--null', is_flag=True, help="NULL terminalted output")
+@click.option('--glyphs-only', is_flag=True, help="Do not print index numbers")
 @click.option('--verbose', is_flag=True)
-@click.option('--stats', is_flag=True)
+@click.option('--stats', is_flag=True, help="Only print statistics")
 def cli(codepoints,
         all_codepoints,
         null,
@@ -51,8 +51,9 @@ def cli(codepoints,
         if unicode_name and not glyphs_only:
             line.append(unicode_name)
 
-        line = ' '.join(line)
-        print(line, end=line_end)
+        if not stats:
+            line = ' '.join(line)
+            print(line, end=line_end)
 
     if stats:
         print("last named unicode char:", last_name, repr(chr(last_name)), name(chr(last_name)))
