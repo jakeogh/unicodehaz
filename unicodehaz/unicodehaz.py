@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 
-import click
 from unicodedata import name
+
+import click
 
 
 @click.command()
+@click.argument("codepoints", type=int, nargs=-1)
 @click.option('--named', is_flag=True)
 @click.option('--null', is_flag=True)
 @click.option('--glyphs-only', is_flag=True)
 @click.option('--verbose', is_flag=True)
-def cli(named, null, glyphs_only, verbose):
+def cli(codepoints, named, null, glyphs_only, verbose):
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
-    for index, point in enumerate(range(1114112)):
+    iterator = enumerate(range(1114112))
+    if codepoints:
+        iterator = codepoints
+    for index, point in iterator:
         thing = chr(point)
         try:
             unicode_name = name(thing)
