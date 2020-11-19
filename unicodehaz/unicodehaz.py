@@ -14,9 +14,9 @@ import click
 def cli(codepoints, named, null, glyphs_only, verbose):
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     iterator = enumerate(range(1114112))
-    print(iterator)
     if codepoints:
         iterator = codepoints
+    print(iterator)
     for index, point in iterator:
         thing = chr(point)
         try:
