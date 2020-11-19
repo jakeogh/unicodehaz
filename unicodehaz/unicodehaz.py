@@ -7,18 +7,20 @@ import click
 
 @click.command()
 @click.argument("codepoints", type=int, nargs=-1)
-@click.option('--named', is_flag=True)
+@click.option('--all', "all_codepoints", is_flag=True, help="Include unnamed codepoints in output")
 @click.option('--null', is_flag=True)
 @click.option('--glyphs-only', is_flag=True)
 @click.option('--verbose', is_flag=True)
 @click.option('--stats', is_flag=True)
 def cli(codepoints,
-        named,
+        all_codepoints,
         null,
         glyphs_only,
         verbose,
         stats,):
+
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
+    named = not all_codepoints
     if null:
         line_end = "\0"
     else:
@@ -43,24 +45,18 @@ def cli(codepoints,
                 continue
         if not glyphs_only:
             line.append(str(index))
-            #print(index, end=" ")
         printable = repr(thing)
         line.append(printable)
-        #print(printable, end=" ")
-
 
         if unicode_name and not glyphs_only:
-            #print(unicode_name, end=line_end)
             line.append(unicode_name)
-        #else:
-        #    print(end=line_end)
 
         line = ' '.join(line)
         print(line, end=line_end)
 
     if stats:
         print("last named unicode char:", last_name, repr(chr(last_name)), name(chr(last_name)))
-        print("unnamed_codepoints:", len(unnamed_codepoints))
+        print("unnamed codepoints:", len(unnamed_codepoints))
 
 
 if __name__ == "__main__":
