@@ -85,5 +85,5 @@ unnamed codepoints: 982304
 
 ```
 
-Glaring omissions: superscript uppercase (aka "MODIFIER LETTER CAPITAL") C F Q S X Y and Z.
+Wishlist: superscript uppercase (aka "MODIFIER LETTER CAPITAL") C F Q S X Y and Z.
 
