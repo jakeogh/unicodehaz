@@ -11,8 +11,15 @@ import click
 @click.option('--null', is_flag=True)
 @click.option('--glyphs-only', is_flag=True)
 @click.option('--verbose', is_flag=True)
-def cli(codepoints, named, null, glyphs_only, verbose):
+@click.option('--stats', is_flag=True)
+def cli(codepoints,
+        named,
+        null,
+        glyphs_only,
+        verbose,
+        stats,):
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
+    unnamed_codepoints = []
     iterator = range(1114112)
     if codepoints:
         iterator = codepoints
@@ -23,6 +30,7 @@ def cli(codepoints, named, null, glyphs_only, verbose):
             last_name = index
         except ValueError:
             unicode_name = None
+            unnammed_codepoints.append(thing)
 
         if named:
             if not unicode_name:
@@ -42,7 +50,9 @@ def cli(codepoints, named, null, glyphs_only, verbose):
         else:
             print(end=line_end)
 
-    #print("last named unicode char:", last_name, repr(chr(last_name)), name(chr(last_name)))
+    if stats:
+        print("last named unicode char:", last_name, repr(chr(last_name)), name(chr(last_name)))
+        print("unnamed_codepoints:", len(unnamed_codepoints))
 
 
 if __name__ == "__main__":
