@@ -42,7 +42,7 @@ def cli(codepoints,
             if not unicode_name:
                 continue
         if not glyphs_only:
-            line.append(index)
+            line.append(str(index))
             #print(index, end=" ")
         printable = repr(thing)
         line.append(printable)
