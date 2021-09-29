@@ -34,8 +34,9 @@ def cli(codepoints: tuple[str, ...],
         line_end = '\n'
 
     unnamed_codepoints = []
-    iterator = range(1114112)
-    if codepoints:
+    if not codepoints:
+        iterator = range(1114112)
+    else:
         iterator = codepoints
     for index, point in enumerate(iterator):
         if utf8:
