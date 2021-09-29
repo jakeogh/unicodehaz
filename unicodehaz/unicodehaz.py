@@ -69,7 +69,8 @@ def cli(codepoints: tuple[str, ...],
             if not unicode_name:
                 continue
         if not glyphs_only:
-            line.append(str(index))
+            #line.append(str(index))
+            line.append(str(point))
         printable = repr(thing)
         line.append(printable)
 
