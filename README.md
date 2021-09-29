@@ -4,11 +4,14 @@ $ unicodehaz --help
 Usage: unicodehaz [OPTIONS] [CODEPOINTS]...
 
 Options:
-  --all          Include unnamed codepoints in output
-  --null         NULL terminalted output
-  --glyphs-only  Do not print index numbers
-  --stats        Only print statistics
-  --help         Show this message and exit.
+  --all            Include unnamed codepoints in output
+  --null           NULL terminalted output
+  --glyphs-only    Do not print index numbers
+  --stats          Only print statistics
+  --start INTEGER
+  --stop INTEGER
+  --utf8           codepoints are utf8 instead of int
+  --help           Show this message and exit.
 
 
 $ unicodehaz | grep -i snowman
