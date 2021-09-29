@@ -15,6 +15,7 @@ import click
 @click.option('--stats', is_flag=True, help="Only print statistics")
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
+@click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
 def cli(codepoints: tuple[int, ...],
         all_codepoints: bool,
         null: bool,
@@ -22,6 +23,7 @@ def cli(codepoints: tuple[int, ...],
         stats: bool,
         start: int,
         stop: int,
+        utf8: bool,
         ):
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
@@ -36,6 +38,8 @@ def cli(codepoints: tuple[int, ...],
     if codepoints:
         iterator = codepoints
     for index, point in enumerate(iterator):
+        if utf8:
+            point = ord(point)
         if start:
             if point < start:
                 continue
