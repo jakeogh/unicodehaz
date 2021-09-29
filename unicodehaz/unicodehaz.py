@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import unicodedata
 
 import click
@@ -16,6 +17,7 @@ import click
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
+@click.option('--verbose', is_flag=True)
 def cli(codepoints: tuple[str, ...],
         all_codepoints: bool,
         null: bool,
@@ -24,6 +26,7 @@ def cli(codepoints: tuple[str, ...],
         start: int,
         stop: int,
         utf8: bool,
+        verbose: bool,
         ):
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
@@ -41,6 +44,8 @@ def cli(codepoints: tuple[str, ...],
     else:
         iterator = codepoints
     for index, point in enumerate(iterator):
+        if verbose:
+            print(index, point, file=sys.stderr)
         if utf8:
             point = ord(point)
         else:
