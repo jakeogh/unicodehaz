@@ -19,6 +19,9 @@ $ unicodehaz | grep -i snowman
 $ unicodehaz | grep ☃
 9731 '☃' SNOWMAN
 
+$ unicodehaz ☃ --utf8
+9731 '☃' SNOWMAN
+
 $ unicodehaz --all | wc -l
 1114112
 
