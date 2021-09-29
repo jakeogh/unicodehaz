@@ -10,7 +10,7 @@ Options:
   --stats          Only print statistics
   --start INTEGER
   --stop INTEGER
-  --utf8           codepoints are utf8 instead of int
+  --utf8           CODEPOINTS are utf8 instead of int
   --help           Show this message and exit.
 
 
