@@ -17,7 +17,6 @@ import click
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
-@click.option('--verbose', is_flag=True)
 def cli(codepoints: tuple[str, ...],
         all_codepoints: bool,
         null: bool,
@@ -26,7 +25,6 @@ def cli(codepoints: tuple[str, ...],
         start: int,
         stop: int,
         utf8: bool,
-        verbose: bool,
         ):
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
@@ -37,15 +35,11 @@ def cli(codepoints: tuple[str, ...],
         line_end = '\n'
 
     unnamed_codepoints = []
-    assert len(codepoints) == 1
-
     if not codepoints:
         iterator = range(1114112)
     else:
         iterator = codepoints
     for index, point in enumerate(iterator):
-        if verbose:
-            print(index, point, file=sys.stderr)
         if utf8:
             point = ord(point)
         else:
@@ -69,7 +63,6 @@ def cli(codepoints: tuple[str, ...],
             if not unicode_name:
                 continue
         if not glyphs_only:
-            #line.append(str(index))
             line.append(str(point))
         printable = repr(thing)
         line.append(printable)
