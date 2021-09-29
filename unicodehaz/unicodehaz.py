@@ -34,6 +34,8 @@ def cli(codepoints: tuple[str, ...],
         line_end = '\n'
 
     unnamed_codepoints = []
+    assert len(codepoints) == 1
+
     if not codepoints:
         iterator = range(1114112)
     else:
