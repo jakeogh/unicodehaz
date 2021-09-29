@@ -6,7 +6,7 @@ import click
 
 
 @click.command()
-@click.argument("codepoints", type=int, nargs=-1,)
+@click.argument("codepoints", type=str, nargs=-1,)
 @click.option('--all', "all_codepoints",
               is_flag=True,
               help="Include unnamed codepoints in output",)
@@ -16,7 +16,7 @@ import click
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
-def cli(codepoints: tuple[int, ...],
+def cli(codepoints: tuple[str, ...],
         all_codepoints: bool,
         null: bool,
         glyphs_only: bool,
@@ -40,6 +40,8 @@ def cli(codepoints: tuple[int, ...],
     for index, point in enumerate(iterator):
         if utf8:
             point = ord(point)
+        else:
+            point = int(point)
         if start:
             if point < start:
                 continue
