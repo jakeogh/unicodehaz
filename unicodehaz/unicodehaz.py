@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import unicodedata
+from stat import S_ISFIFO
 
 import click
+
+
+def stdin_generator():
+    for line in sys.stdin:
+        for char in list(line):
+            yield char
 
 
 @click.command()
@@ -36,9 +44,13 @@ def cli(codepoints: tuple[str, ...],
 
     unnamed_codepoints = []
     if not codepoints:
-        iterator = range(1114112)
+        stdin_is_a_fifo = S_ISFIFO(os.fstat(sys.stdin.fileno()).st_mode)
+        if stdin_is_a_fifo:
+            iterator = stdin_generator()
+        else:
+            iterator = range(1114112)
     else:
-        iterator = codepoints
+        iterator = [c for c in ''.join(codepoints)]
     for index, point in enumerate(iterator):
         if utf8:
             point = ord(point)

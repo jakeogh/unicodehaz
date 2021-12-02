@@ -25,6 +25,10 @@ $ unicodehaz | grep ☃
 $ unicodehaz ☃ --utf8
 9731 '☃' SNOWMAN
 
+$ echo '๏☃' | unicodehaz --utf8
+3663 '๏' THAI CHARACTER FONGMAN
+9731 '☃' SNOWMAN
+
 $ unicodehaz --all | wc -l
 1114112
 
