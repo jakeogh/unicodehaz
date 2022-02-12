@@ -14,8 +14,17 @@ def stdin_generator():
             yield char
 
 
-@click.command()
-@click.argument("codepoints", type=str, nargs=-1,)
+@click.group(no_args_is_help=True)
+@click.pass_context
+def cli(ctx,
+        verbose: int,
+        ):
+    pass
+
+
+
+@cli.command()
+@click.argument("codepoints", type=str, nargs=-1,)  # todo int
 @click.option('--all', "all_codepoints",
               is_flag=True,
               help="Include unnamed codepoints in output",)
@@ -25,15 +34,17 @@ def stdin_generator():
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
-def cli(codepoints: tuple[str, ...],
-        all_codepoints: bool,
-        null: bool,
-        glyphs_only: bool,
-        stats: bool,
-        start: int,
-        stop: int,
-        utf8: bool,
-        ):
+@click.pass_context
+def codepoints(ctx,
+               codepoints: tuple[str, ...],
+               all_codepoints: bool,
+               null: bool,
+               glyphs_only: bool,
+               stats: bool,
+               start: int,
+               stop: int,
+               utf8: bool,
+               ):
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     named = not all_codepoints
