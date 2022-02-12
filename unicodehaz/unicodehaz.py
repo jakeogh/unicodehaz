@@ -15,9 +15,10 @@ def stdin_generator():
 
 
 @click.group(no_args_is_help=True)
+@click.option('--verbose', is_flag=True)
 @click.pass_context
 def cli(ctx,
-        verbose: int,
+        verbose: bool,
         ):
     pass
 
@@ -34,6 +35,7 @@ def cli(ctx,
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
+@click.option('--verbose', is_flag=True)
 @click.pass_context
 def codepoints(ctx,
                codepoints: tuple[str, ...],
@@ -44,6 +46,7 @@ def codepoints(ctx,
                start: int,
                stop: int,
                utf8: bool,
+               verbose: bool,
                ):
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
