@@ -96,7 +96,8 @@ def points(ctx,
         try:
             unicode_name = unicodedata.name(thing)
             last_name = index
-        except ValueError:
+        except ValueError as e:
+            ic(e)
             unicode_name = None
             unnamed_codepoints.append(thing)
 
