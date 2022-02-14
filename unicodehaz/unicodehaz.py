@@ -7,6 +7,7 @@ from stat import S_ISFIFO
 from typing import Union
 
 import click
+from asserttool import ic
 from clicktool import click_add_options
 from clicktool import click_global_options
 from clicktool import tv
@@ -73,6 +74,8 @@ def points(ctx,
         iterator = codepoints
 
     for index, point in enumerate(iterator):
+        if verbose:
+            ic(index, point)
         point = int(point)
         if start:
             if point < start:
