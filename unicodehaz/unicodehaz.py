@@ -24,7 +24,7 @@ def cli(ctx,
 
 
 @cli.command()
-@click.argument("codepoints", type=str, nargs=-1,)  # todo int
+@click.argument("codepoints", type=int, nargs=-1,)  # todo int
 @click.option('--all', "all_codepoints",
               is_flag=True,
               help="Include unnamed codepoints in output",)
@@ -33,7 +33,7 @@ def cli(ctx,
 @click.option('--stats', is_flag=True, help="Only print statistics")
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
-@click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
+#@click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
 @click.option('--verbose', is_flag=True)
 @click.pass_context
 def codepoints(ctx,
@@ -44,7 +44,6 @@ def codepoints(ctx,
                stats: bool,
                start: int,
                stop: int,
-               utf8: bool,
                verbose: bool,
                ):
 
@@ -65,10 +64,10 @@ def codepoints(ctx,
     else:
         iterator = [c for c in ''.join(codepoints)]
     for index, point in enumerate(iterator):
-        if utf8:
-            point = ord(point)
-        else:
-            point = int(point)
+        #if utf8:
+        #    point = ord(point)
+        #else:
+        point = int(point)
         if start:
             if point < start:
                 continue
@@ -119,14 +118,13 @@ def codepoints(ctx,
 @click.option('--verbose', is_flag=True)
 @click.pass_context
 def chars(ctx,
-          codepoints: tuple[str, ...],
+          chars: tuple[str, ...],
           all_codepoints: bool,
           null: bool,
           glyphs_only: bool,
           stats: bool,
           start: int,
           stop: int,
-          utf8: bool,
           verbose: bool,
           ):
 
@@ -147,10 +145,7 @@ def chars(ctx,
     else:
         iterator = [c for c in ''.join(codepoints)]
     for index, point in enumerate(iterator):
-        if utf8:
-            point = ord(point)
-        else:
-            point = int(point)
+        point = ord(point)
         if start:
             if point < start:
                 continue
@@ -180,12 +175,3 @@ def chars(ctx,
         if not stats:
             line = ' '.join(line)
             print(line, end=line_end)
-
-    if stats:
-        print("Last named codepoint:",
-              last_name,
-              repr(chr(last_name)),
-              unicodedata.name(chr(last_name)))
-        print("Unnamed codepoints:  ", len(unnamed_codepoints))
-        print()
-        print(unicodedata.__doc__)
