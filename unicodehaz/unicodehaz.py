@@ -67,13 +67,11 @@ def points(ctx,
 
     unnamed_codepoints = []
     if not codepoints:
-        stdin_is_a_fifo = S_ISFIFO(os.fstat(sys.stdin.fileno()).st_mode)
-        if stdin_is_a_fifo:
-            iterator = stdin_generator()
-        else:
-            iterator = range(1114112)
+        #iterator = unmp(valid_types=[int,], verbose=verbose)
+        iterator = range(1114112)
     else:
-        iterator = [c for c in ''.join(codepoints)]
+        iterator = codepoints
+
     for index, point in enumerate(iterator):
         point = int(point)
         if start:
