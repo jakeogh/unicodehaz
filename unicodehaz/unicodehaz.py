@@ -39,7 +39,6 @@ def cli(ctx,
 @click.option('--all', "all_codepoints",
               is_flag=True,
               help="Include unnamed codepoints in output",)
-@click.option('--null', is_flag=True, help="NULL terminalted output")
 @click.option('--glyphs-only', is_flag=True, help="Do not print index numbers")
 @click.option('--stats', is_flag=True, help="Only print statistics")
 @click.option('--start', type=int)
@@ -118,7 +117,7 @@ def points(ctx,
 
 
 @cli.command()
-@click.argument("chars", type=str, nargs=-1,)  # todo int
+@click.argument("utf8_chars", type=str, nargs=-1,)
 @click.option('--glyphs-only', is_flag=True, help="Do not print index numbers")
 @click.option('--stats', is_flag=True, help="Only print statistics")
 @click.option('--start', type=int)
@@ -127,9 +126,8 @@ def points(ctx,
 @click.option('--verbose', is_flag=True)
 @click.pass_context
 def chars(ctx,
-          chars: tuple[str, ...],
+          utf8_chars: tuple[str, ...],
           all_codepoints: bool,
-          null: bool,
           glyphs_only: bool,
           stats: bool,
           start: int,
@@ -145,8 +143,8 @@ def chars(ctx,
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     named = not all_codepoints
-    if chars:
-        iterator = chars
+    if utf8_chars:
+        iterator = utf8_chars
     else:
         iterator = unmp(valid_types=[str,], verbose=verbose)
 
