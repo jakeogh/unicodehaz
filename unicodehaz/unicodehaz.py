@@ -14,11 +14,19 @@ from clicktool import tv
 from mptool import output
 from mptool import unmp
 
+#def stdin_generator():
+#    for line in sys.stdin:
+#        for char in list(line):
+#            yield char
 
-def stdin_generator():
-    for line in sys.stdin:
-        for char in list(line):
-            yield char
+
+def validate_codepoints(ctx, param, value):
+    ic(value)
+    for v in value:
+        _v = int(v)
+        if _v < 0 or _v > 1114111:
+            raise click.BadParameter(f'unicode is base 0x110000 1114112, {value} is outside the range of valid codepoints (0 to 1114111)')
+    return value
 
 
 @click.group(no_args_is_help=True)
@@ -36,7 +44,7 @@ def cli(ctx,
 
 
 @cli.command('codepoints')
-@click.argument("codepoints", type=int, nargs=-1,)  # todo int
+@click.argument("codepoints", nargs=-1, type=click.UNPROCESSED, callback=validate_codepoints)
 @click.option('--all', "all_codepoints",
               is_flag=True,
               help="Include unnamed codepoints in output",)
