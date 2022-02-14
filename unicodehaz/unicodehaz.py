@@ -4,8 +4,13 @@ import os
 import sys
 import unicodedata
 from stat import S_ISFIFO
+from typing import Union
 
 import click
+from clicktool import click_add_options
+from clicktool import click_global_options
+from clicktool import tv
+from mptool import output
 from mptool import unmp
 
 
@@ -16,15 +21,20 @@ def stdin_generator():
 
 
 @click.group(no_args_is_help=True)
-@click.option('--verbose', is_flag=True)
+@click_add_options(click_global_options)
 @click.pass_context
 def cli(ctx,
-        verbose: bool,
+        verbose: Union[bool, int, float],
+        verbose_inf: bool,
         ):
-    pass
+
+    tty, verbose = tv(ctx=ctx,
+                      verbose=verbose,
+                      verbose_inf=verbose_inf,
+                      )
 
 
-@cli.command()
+@cli.command('codepoints')
 @click.argument("codepoints", type=int, nargs=-1,)  # todo int
 @click.option('--all', "all_codepoints",
               is_flag=True,
@@ -37,23 +47,24 @@ def cli(ctx,
 #@click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
 @click.option('--verbose', is_flag=True)
 @click.pass_context
-def codepoints(ctx,
-               codepoints: tuple[str, ...],
-               all_codepoints: bool,
-               null: bool,
-               glyphs_only: bool,
-               stats: bool,
-               start: int,
-               stop: int,
-               verbose: bool,
-               ):
+def points(ctx,
+           codepoints: tuple[str, ...],
+           all_codepoints: bool,
+           glyphs_only: bool,
+           stats: bool,
+           start: int,
+           stop: int,
+           verbose: Union[bool, int, float],
+           verbose_inf: bool,
+           ):
+
+    tty, verbose = tv(ctx=ctx,
+                      verbose=verbose,
+                      verbose_inf=verbose_inf,
+                      )
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     named = not all_codepoints
-    if null:
-        line_end = "\0"
-    else:
-        line_end = '\n'
 
     unnamed_codepoints = []
     if not codepoints:
@@ -65,9 +76,6 @@ def codepoints(ctx,
     else:
         iterator = [c for c in ''.join(codepoints)]
     for index, point in enumerate(iterator):
-        #if utf8:
-        #    point = ord(point)
-        #else:
         point = int(point)
         if start:
             if point < start:
@@ -97,7 +105,7 @@ def codepoints(ctx,
 
         if not stats:
             line = ' '.join(line)
-            print(line, end=line_end)
+            output(line, tty=tty, verbose=verbose,)
 
     if stats:
         print("Last named codepoint:",
@@ -126,16 +134,17 @@ def chars(ctx,
           stats: bool,
           start: int,
           stop: int,
-          verbose: bool,
+          verbose: Union[bool, int, float],
+          verbose_inf: bool,
           ):
+
+    tty, verbose = tv(ctx=ctx,
+                      verbose=verbose,
+                      verbose_inf=verbose_inf,
+                      )
 
     # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
     named = not all_codepoints
-    if null:
-        line_end = "\0"
-    else:
-        line_end = '\n'
-
     if chars:
         iterator = chars
     else:
@@ -172,4 +181,4 @@ def chars(ctx,
 
         if not stats:
             line = ' '.join(line)
-            print(line, end=line_end)
+            output(line, tty=tty, verbose=verbose)
