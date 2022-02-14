@@ -6,6 +6,7 @@ import unicodedata
 from stat import S_ISFIFO
 
 import click
+from mptool import unmp
 
 
 def stdin_generator():
@@ -135,15 +136,12 @@ def chars(ctx,
     else:
         line_end = '\n'
 
-    unnamed_codepoints = []
-    if not codepoints:
-        stdin_is_a_fifo = S_ISFIFO(os.fstat(sys.stdin.fileno()).st_mode)
-        if stdin_is_a_fifo:
-            iterator = stdin_generator()
-        else:
-            iterator = range(1114112)
+    if chars:
+        iterator = chars
     else:
-        iterator = [c for c in ''.join(codepoints)]
+        iterator = unmp(valid_types=[str,], verbose=verbose)
+
+    unnamed_codepoints = []
     for index, point in enumerate(iterator):
         point = ord(point)
         if start:
