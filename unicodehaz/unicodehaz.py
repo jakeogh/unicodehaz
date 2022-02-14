@@ -44,7 +44,7 @@ def cli(ctx,
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 #@click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
-@click.option('--verbose', is_flag=True)
+@click_add_options(click_global_options)
 @click.pass_context
 def points(ctx,
            codepoints: tuple[str, ...],
@@ -123,7 +123,7 @@ def points(ctx,
 @click.option('--start', type=int)
 @click.option('--stop', type=int)
 @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
-@click.option('--verbose', is_flag=True)
+@click_add_options(click_global_options)
 @click.pass_context
 def chars(ctx,
           utf8_chars: tuple[str, ...],
