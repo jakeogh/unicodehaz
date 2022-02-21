@@ -150,19 +150,12 @@ def points(
     nargs=-1,
 )
 @click.option("--glyphs-only", is_flag=True, help="Do not print index numbers")
-@click.option("--stats", is_flag=True, help="Only print statistics")
-@click.option("--start", type=int)
-@click.option("--stop", type=int)
 @click_add_options(click_global_options)
 @click.pass_context
 def chars(
     ctx,
     utf8_chars: tuple[str, ...],
-    all_codepoints: bool,
     glyphs_only: bool,
-    stats: bool,
-    start: int,
-    stop: int,
     verbose: Union[bool, int, float],
     verbose_inf: bool,
 ):
@@ -173,8 +166,6 @@ def chars(
         verbose_inf=verbose_inf,
     )
 
-    # unicode is base 0x110000 1114112 https://wtanaka.com/node/8213
-    named = not all_codepoints
     if utf8_chars:
         iterator = utf8_chars
     else:
@@ -185,35 +176,24 @@ def chars(
             verbose=verbose,
         )
 
-    unnamed_codepoints = []
     for index, point in enumerate(iterator):
-        point = ord(point)
-        if start:
-            if point < start:
-                continue
-        if stop:
-            if point > stop:
-                continue
-        line = []
-        thing = chr(point)
         try:
-            unicode_name = unicodedata.name(thing)
+            unicode_name = unicodedata.name(point)
             last_name = index
-        except ValueError:
+        except ValueError as e:
+            # ic(e)
             unicode_name = None
-            unnamed_codepoints.append(thing)
 
-        if named:
-            if not unicode_name:
-                continue
-        if not glyphs_only:
-            line.append(str(point))
-        printable = repr(thing)
-        line.append(printable)
+        # point = ord(point)
+        # ic(point)
+        # line = []
+        # thing = chr(point)
+        # ic(thing)
+        # printable = repr(thing)
+        output(
+            (point, unicode_name),
+            tty=tty,
+            verbose=verbose,
+        )
 
-        if unicode_name and not glyphs_only:
-            line.append(unicode_name)
-
-        if not stats:
-            line = " ".join(line)
-            output(line, tty=tty, verbose=verbose)
+        output(point, tty=tty, verbose=verbose)
