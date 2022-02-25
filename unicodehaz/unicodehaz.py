@@ -127,6 +127,8 @@ def points(
             line = " ".join(line)
             output(
                 line,
+                reason=None,
+                dict_input=False,
                 tty=tty,
                 verbose=verbose,
             )
@@ -158,6 +160,7 @@ def chars(
     glyphs_only: bool,
     verbose: Union[bool, int, float],
     verbose_inf: bool,
+    dict_input: bool,
 ):
 
     tty, verbose = tv(
@@ -192,8 +195,10 @@ def chars(
         # printable = repr(thing)
         output(
             (point, unicode_name),
+            reason=None,
+            dict_input=dict_input,
             tty=tty,
             verbose=verbose,
         )
 
-        output(point, tty=tty, verbose=verbose)
+        output(point, reason=None, dict_input=dict_input, tty=tty, verbose=verbose)
