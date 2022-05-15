@@ -48,6 +48,53 @@ def cli(
     )
 
 
+@cli.command("stats")
+@click_add_options(click_global_options)
+@click.pass_context
+def _stats(
+    ctx,
+    verbose: Union[bool, int, float],
+    verbose_inf: bool,
+    dict_input: bool,
+):
+
+    tty, verbose = tv(
+        ctx=ctx,
+        verbose=verbose,
+        verbose_inf=verbose_inf,
+    )
+
+    unnamed_codepoints = []
+    named_codepoints = []
+
+    iterator = range(1114112)
+    for index, _point in enumerate(iterator):
+        if verbose:
+            ic(index, _point)
+        point = int(_point)
+        thing = chr(point)
+        try:
+            unicode_name = unicodedata.name(thing)
+            last_name = index
+            named_codepoints.append(thing)
+        except ValueError as e:
+            # ic(e)
+            unicode_name = None
+            unnamed_codepoints.append(thing)
+
+    print(
+        "Last named codepoint:",
+        last_name,
+        repr(chr(last_name)),
+        unicodedata.name(chr(last_name)),
+    )
+
+    print("Unnamed codepoints:  ", len(unnamed_codepoints))
+    print("Named codepoints:  ", len(named_codepoints))
+    print()
+    print(unicodedata.__doc__)
+
+
 @cli.command("codepoints")
 @click.argument(
     "codepoints", nargs=-1, type=click.UNPROCESSED, callback=validate_codepoints
@@ -58,19 +105,17 @@ def cli(
     is_flag=True,
     help="Include unnamed codepoints in output",
 )
-@click.option("--glyphs-only", is_flag=True, help="Do not print index numbers")
-@click.option("--stats", is_flag=True, help="Only print statistics")
+# @click.option("--glyphs-only", is_flag=True, help="Do not print index numbers")
 @click.option("--start", type=int)
 @click.option("--stop", type=int)
 # @click.option('--utf8', is_flag=True, help="codepoints are utf8 instead of int")
 @click_add_options(click_global_options)
 @click.pass_context
-def points(
+def _codepoints(
     ctx,
-    codepoints: tuple[str, ...],
+    codepoints: tuple[str],
     all_codepoints: bool,
     glyphs_only: bool,
-    stats: bool,
     start: int,
     stop: int,
     verbose: Union[bool, int, float],
@@ -94,10 +139,10 @@ def points(
     else:
         iterator = codepoints
 
-    for index, point in enumerate(iterator):
+    for index, _point in enumerate(iterator):
         if verbose:
-            ic(index, point)
-        point = int(point)
+            ic(index, _point)
+        point = int(_point)
         if start:
             if point < start:
                 continue
@@ -108,7 +153,6 @@ def points(
         thing = chr(point)
         try:
             unicode_name = unicodedata.name(thing)
-            last_name = index
         except ValueError as e:
             # ic(e)
             unicode_name = None
@@ -117,34 +161,23 @@ def points(
         if named:
             if not unicode_name:
                 continue
-        if not glyphs_only:
-            line.append(str(point))
+        # if not glyphs_only:
+        #    line.append(str(point))
         printable = repr(thing)
         line.append(printable)
 
-        if unicode_name and not glyphs_only:
+        # if unicode_name and not glyphs_only:
+        if unicode_name:
             line.append(unicode_name)
 
-        if not stats:
-            line = " ".join(line)
-            output(
-                line,
-                reason=None,
-                dict_input=False,
-                tty=tty,
-                verbose=verbose,
-            )
-
-    if stats:
-        print(
-            "Last named codepoint:",
-            last_name,
-            repr(chr(last_name)),
-            unicodedata.name(chr(last_name)),
+        _line = " ".join(line)
+        output(
+            _line,
+            reason=_point,
+            dict_input=dict_input,
+            tty=tty,
+            verbose=verbose,
         )
-        print("Unnamed codepoints:  ", len(unnamed_codepoints))
-        print()
-        print(unicodedata.__doc__)
 
 
 @cli.command()
