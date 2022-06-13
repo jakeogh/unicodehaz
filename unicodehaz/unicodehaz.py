@@ -115,7 +115,6 @@ def _codepoints(
     ctx,
     codepoints: tuple[str],
     all_codepoints: bool,
-    glyphs_only: bool,
     start: int,
     stop: int,
     verbose: Union[bool, int, float],
